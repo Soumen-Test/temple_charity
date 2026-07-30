@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\V1\Donation\DonationController;
 use App\Http\Controllers\Api\V1\Payment\PaymentController;
 use App\Http\Controllers\Api\V1\Receipt\ReceiptController;
 use App\Http\Controllers\Api\V1\File\FileController;
+use App\Http\Controllers\Api\V1\Expense\ExpenseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -120,6 +121,22 @@ Route::prefix('auth')->group(function () {
         )->only([
             'store',
             'show',
+            'destroy',
+        ]);
+
+        Route::post(
+            'projects/{project}/files',
+            [ProjectController::class, 'uploadFile']
+        );
+
+        Route::apiResource(
+            'expenses',
+            ExpenseController::class
+        )->only([
+            'index',
+            'store',
+            'show',
+            'update',
             'destroy',
         ]);
     });

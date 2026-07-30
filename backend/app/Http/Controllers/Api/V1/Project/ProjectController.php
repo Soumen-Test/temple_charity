@@ -8,6 +8,9 @@ use App\Http\Requests\Api\V1\Project\UpdateProjectRequest;
 use App\Http\Resources\Api\V1\Project\ProjectResource;
 use App\Models\Project;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\Api\V1\File\StoreFileRequest;
+use App\Http\Resources\Api\V1\File\FileResource;
+use App\Services\File\FileService;
 
 class ProjectController extends Controller
 {
@@ -91,5 +94,39 @@ class ProjectController extends Controller
             'message' =>
                 'Project deleted successfully.',
         ]);
+    }
+
+    public function uploadFile(
+        StoreFileRequest $request,
+        Project $project,
+        FileService $fileService
+    ): FileResource {
+
+        $file = $fileService->upload(
+            uploadedFile: $request->file('file'),
+
+            fileableType:
+                $project->getMorphClass(),
+
+            fileableId:
+                $project->id,
+
+            collection:
+                $request->input(
+                    'collection',
+                    'project'
+                ),
+
+            isPublic:
+                $request->boolean('is_public'),
+
+            uploadedBy:
+                auth()->id(),
+
+            remarks:
+                $request->input('remarks')
+        );
+
+        return new FileResource($file);
     }
 }
