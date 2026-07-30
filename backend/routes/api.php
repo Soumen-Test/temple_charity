@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\V1\Organization\OrganizationController;
 use App\Http\Controllers\Api\V1\Temple\TempleController;
+use App\Http\Controllers\Api\V1\Project\ProjectController;
 
 
 
@@ -54,15 +55,9 @@ Route::prefix('auth')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('v1')
+    Route::prefix('v1')
     ->middleware('auth:sanctum')
     ->group(function () {
-
-        /*
-        |--------------------------------------------------------------------------
-        | Organization
-        |--------------------------------------------------------------------------
-        */
 
         Route::apiResource(
             'organizations',
@@ -74,4 +69,9 @@ Route::prefix('v1')
             TempleController::class
         );
 
+        Route::apiResource(
+            'projects',
+            ProjectController::class
+        );
     });
+    
