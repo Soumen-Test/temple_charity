@@ -6,7 +6,10 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\V1\Organization\OrganizationController;
 use App\Http\Controllers\Api\V1\Temple\TempleController;
 use App\Http\Controllers\Api\V1\Project\ProjectController;
-
+use App\Http\Controllers\Api\V1\Campaign\CampaignController;
+use App\Http\Controllers\Api\V1\Donor\DonorController;
+use App\Http\Controllers\Api\V1\Donation\DonationController;
+use App\Http\Controllers\Api\V1\Payment\PaymentController;
 
 
 /*
@@ -72,6 +75,33 @@ Route::prefix('auth')->group(function () {
         Route::apiResource(
             'projects',
             ProjectController::class
+        );
+        Route::apiResource(
+            'campaigns',
+            CampaignController::class
+        );
+
+        Route::apiResource(
+            'donors',
+            DonorController::class
+        );
+        Route::apiResource(
+            'donations',
+            DonationController::class
+        );
+        Route::apiResource(
+            'payments',
+            PaymentController::class
+        );
+
+        Route::post(
+            'payments/{payment}/confirm',
+            [PaymentController::class, 'confirm']
+        );
+
+        Route::apiResource(
+            'payments',
+            PaymentController::class
         );
     });
     
