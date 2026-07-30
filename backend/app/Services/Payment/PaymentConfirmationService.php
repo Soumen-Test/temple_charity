@@ -3,11 +3,17 @@
 namespace App\Services\Payment;
 
 use App\Models\Payment;
+use App\Services\Receipt\ReceiptService;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
 
 class PaymentConfirmationService
 {
+    public function __construct(
+        private ReceiptService $receiptService
+    ) {
+    }
+
     public function confirm(
         Payment $payment,
         ?int $verifiedBy = null
@@ -23,21 +29,9 @@ class PaymentConfirmationService
                 ->with('donation')
                 ->findOrFail($payment->id);
 
-            /*
-            |--------------------------------------------------------------------------
-            | Already Paid
-            |--------------------------------------------------------------------------
-            */
-
             if ($payment->status === 'paid') {
                 return $payment;
             }
-
-            /*
-            |--------------------------------------------------------------------------
-            | Failed Payment Cannot Be Confirmed
-            |--------------------------------------------------------------------------
-            */
 
             if ($payment->status === 'failed') {
                 throw new RuntimeException(
@@ -47,7 +41,7 @@ class PaymentConfirmationService
 
             /*
             |--------------------------------------------------------------------------
-            | Payment
+            | Mark Payment Paid
             |--------------------------------------------------------------------------
             */
 
@@ -60,22 +54,31 @@ class PaymentConfirmationService
 
             /*
             |--------------------------------------------------------------------------
-            | Donation
+            | Complete Donation
             |--------------------------------------------------------------------------
             */
 
             $donation = $payment->donation;
 
-            if ($donation->status !== 'completed') {
+            $donation->update([
+                'status' => 'completed',
+                'donated_at' => now(),
+            ]);
 
-                $donation->update([
-                    'status' => 'completed',
-                    'donated_at' => now(),
-                ]);
-            }
+            /*
+            |--------------------------------------------------------------------------
+            | Generate Receipt
+            |--------------------------------------------------------------------------
+            */
+
+            $this->receiptService->createForDonation(
+                $donation->fresh(),
+                $verifiedBy
+            );
 
             return $payment->fresh([
                 'donation',
+                'receipt',
             ]);
         });
     }

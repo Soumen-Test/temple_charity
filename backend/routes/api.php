@@ -10,7 +10,8 @@ use App\Http\Controllers\Api\V1\Campaign\CampaignController;
 use App\Http\Controllers\Api\V1\Donor\DonorController;
 use App\Http\Controllers\Api\V1\Donation\DonationController;
 use App\Http\Controllers\Api\V1\Payment\PaymentController;
-
+use App\Http\Controllers\Api\V1\Receipt\ReceiptController;
+use App\Http\Controllers\Api\V1\File\FileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,5 +104,23 @@ Route::prefix('auth')->group(function () {
             'payments',
             PaymentController::class
         );
+
+        Route::apiResource(
+            'receipts',
+            ReceiptController::class
+        )->only([
+            'index',
+            'show',
+            'destroy',
+        ]);
+
+        Route::apiResource(
+            'files',
+            FileController::class
+        )->only([
+            'store',
+            'show',
+            'destroy',
+        ]);
     });
     

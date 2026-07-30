@@ -68,4 +68,11 @@ class Donation extends Model
     {
         return $this->hasMany(Payment::class);
     }
+
+    public function receipt()
+    {
+        return $this->hasOne(
+            Receipt::class
+        );
+    }
 }
