@@ -13,6 +13,11 @@ use App\Http\Controllers\Api\V1\Payment\PaymentController;
 use App\Http\Controllers\Api\V1\Receipt\ReceiptController;
 use App\Http\Controllers\Api\V1\File\FileController;
 use App\Http\Controllers\Api\V1\Expense\ExpenseController;
+use App\Http\Controllers\Api\V1\Ledger\LedgerController;
+use App\Http\Controllers\Api\V1\OpeningBalance\OpeningBalanceController;
+use App\Http\Controllers\Api\V1\FinancialSummary\FinancialSummaryController;
+use App\Http\Controllers\Api\V1\Public\WebsiteContentController;
+use App\Http\Controllers\Api\V1\Public\WebsiteContentController as PublicWebsiteContentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -139,5 +144,81 @@ Route::prefix('auth')->group(function () {
             'update',
             'destroy',
         ]);
+
+        Route::post(
+            'expenses/{expense}/submit',
+            [ExpenseController::class, 'submit']
+        );
+
+        Route::post(
+            'expenses/{expense}/approve',
+            [ExpenseController::class, 'approve']
+        );
+
+        Route::post(
+            'expenses/{expense}/reject',
+            [ExpenseController::class, 'reject']
+        );
+
+        Route::post(
+            'expenses/{expense}/files',
+            [ExpenseController::class, 'uploadFile']
+        );
+
+        Route::get(
+            'expenses/{expense}/files',
+            [ExpenseController::class, 'files']
+        );
+
+        Route::delete(
+            'expenses/{expense}/files/{file}',
+            [ExpenseController::class, 'detachFile']
+        );
+
+        Route::get(
+            'ledger',
+            [LedgerController::class, 'index']
+        );
+        Route::apiResource(
+            'opening-balances',
+            OpeningBalanceController::class
+        )->only([
+            'index',
+            'store',
+            'show',
+            'update',
+            'destroy',
+        ]);
+
+        Route::get(
+            'financial-summary',
+            [FinancialSummaryController::class, 'index']
+        );
+        Route::apiResource(
+            'website-contents',
+            WebsiteContentController::class
+        )->only([
+            'index',
+            'store',
+            'show',
+            'update',
+            'destroy',
+        ]);
+
+
+    });
+
+    Route::prefix('public')->group(function () {
+
+        Route::get(
+            '/website-contents',
+            [PublicWebsiteContentController::class, 'index']
+        );
+
+        Route::get(
+            '/website-contents/{contentKey}',
+            [PublicWebsiteContentController::class, 'show']
+        );
+
     });
     
