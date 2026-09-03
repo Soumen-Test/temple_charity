@@ -86,56 +86,17 @@ function Navbar() {
               </Link>
 
               <Link to="/about" className="nav-item nav-link">
-  About
-</Link>
-
-              <Link to="/activity" className="nav-item nav-link">
-                Activities
+                About
               </Link>
 
               <Link to="/events" className="nav-item nav-link">
                 Events
               </Link>
 
-              <Link to="/sermons" className="nav-item nav-link">
-                Sermons
-              </Link>
-
-              <div className="nav-item dropdown">
-                <a
-                  href="/"
-                  className="nav-link dropdown-toggle"
-                  data-bs-toggle="dropdown"
-                >
-                  Pages
-                </a>
-
-                <div className="dropdown-menu m-0 rounded-0">
-                  <Link to="/blogs" className="dropdown-item">
-                    Latest Blog
-                  </Link>
-
-                  <Link to="/team" className="dropdown-item">
-                    Our Team
-                  </Link>
-
-                  <Link to="/testimonial" className="dropdown-item">
-                    Testimonial
-                  </Link>
-                </div>
-              </div>
-
               <Link to="/contact" className="nav-item nav-link">
                 Contact
               </Link>
             </div>
-
-            <a
-              href="/donate"
-              className="btn btn-primary py-2 px-4 d-none d-xl-inline-block"
-            >
-              Donate
-            </a>
           </div>
         </nav>
       </div>
