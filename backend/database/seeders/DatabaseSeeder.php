@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
             ProjectSeeder::class,
 
             CampaignSeeder::class,
+
+            WebsiteContentSeeder::class,
         ]);
     }
 }
