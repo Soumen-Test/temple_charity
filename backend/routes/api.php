@@ -18,6 +18,8 @@ use App\Http\Controllers\Api\V1\OpeningBalance\OpeningBalanceController;
 use App\Http\Controllers\Api\V1\FinancialSummary\FinancialSummaryController;
 use App\Http\Controllers\Api\V1\Public\WebsiteContentController;
 use App\Http\Controllers\Api\V1\Public\WebsiteContentController as PublicWebsiteContentController;
+use App\Http\Controllers\Api\V1\Public\ProjectController as PublicProjectController;
+use App\Http\Controllers\Api\V1\Public\CampaignController as PublicCampaignController;
 
 /*
 |--------------------------------------------------------------------------
@@ -214,11 +216,28 @@ Route::prefix('auth')->group(function () {
             '/website-contents',
             [PublicWebsiteContentController::class, 'index']
         );
-
         Route::get(
             '/website-contents/{contentKey}',
             [PublicWebsiteContentController::class, 'show']
         );
+        Route::get(
+            '/projects',
+            [PublicProjectController::class, 'index']
+        );
 
+        Route::get(
+            '/projects/{slug}',
+            [PublicProjectController::class, 'show']
+        );
+
+        Route::get(
+            '/campaigns',
+            [PublicCampaignController::class, 'index']
+        );
+
+        Route::get(
+            '/campaigns/{slug}',
+            [PublicCampaignController::class, 'show']
+        );
     });
     
